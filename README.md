@@ -19,16 +19,16 @@
 ## Capturas de tela
 
 Tela principal da biblioteca:  
-![Tela 1](assets/1.jpg)  
+![Tela 1](assets/1.png)  
 
 Adicionando um novo item:  
-![Tela 2](assets/2.jpg)  
+![Tela 2](assets/2.png)  
 
 Visualização de rankings e avaliações:  
-![Tela 3](assets/3.jpg)  
+![Tela 3](assets/3.png)  
 
 Estatísticas e progresso da coleção:  
-![Tela 4](assets/4.jpg)  
+![Tela 4](assets/4.png)  
 
 ---
 
