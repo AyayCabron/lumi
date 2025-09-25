@@ -18,16 +18,16 @@
 
 ## Capturas de tela
 
-Tela principal da biblioteca:  
+Tela de estatisticas:  
 ![Tela 1](assets/1.png)  
 
-Adicionando um novo item:  
+Visualização de rankings e avaliações:  
 ![Tela 2](assets/2.png)  
 
-Visualização de rankings e avaliações:  
+Visualização inicial:  
 ![Tela 3](assets/3.png)  
 
-Estatísticas e progresso da coleção:  
+Adicionando um novo item:  
 ![Tela 4](assets/4.png)  
 
 ---
