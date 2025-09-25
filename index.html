@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Biblioteca</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+
+        <div id="welcome-tutorial" class="modal">
+            <div class="modal-content tutorial-content">
+                <div class="tutorial-slide active" id="slide-1">
+                    <div class="tutorial-icon">🎬📚</div>
+                    <h2>Bem-vindo à sua Biblioteca Pessoal!</h2>
+                    <p>Uma forma simples e elegante de organizar seus livros, filmes e séries.</p>
+                    <div class="tutorial-buttons">
+                        <button class="btn btn-primary next-slide" data-next="2">Começar</button>
+                    </div>
+                </div>
+                
+                <div class="tutorial-slide" id="slide-2">
+                    <div class="tutorial-icon"><i class="fas fa-plus-circle"></i></div>
+                    <h2>Adicionar Itens</h2>
+                    <p>Clique no botão "Adicionar Item" e busque automaticamente por livros, filmes ou séries.</p>
+                    <div class="tutorial-buttons">
+                        <button class="btn btn-secondary prev-slide" data-prev="1">Voltar</button>
+                        <button class="btn btn-primary next-slide" data-next="3">Próximo</button>
+                    </div>
+                </div>
+                
+                <div class="tutorial-slide" id="slide-3">
+                    <div class="tutorial-icon"><i class="fas fa-star"></i></div>
+                    <h2>Avaliar e Favoritar</h2>
+                    <p>Dê notas de 0 a 5 estrelas e marque seus favoritos para encontrá-los facilmente.</p>
+                    <div class="tutorial-buttons">
+                        <button class="btn btn-secondary prev-slide" data-prev="2">Voltar</button>
+                        <button class="btn btn-primary next-slide" data-next="4">Próximo</button>
+                    </div>
+                </div>
+                
+                <div class="tutorial-slide" id="slide-4">
+                    <div class="tutorial-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h2>Estatísticas e Ranking</h2>
+                    <p>Acompanhe suas estatísticas de consumo e veja seu ranking anual.</p>
+                    <div class="tutorial-buttons">
+                        <button class="btn btn-secondary prev-slide" data-prev="3">Voltar</button>
+                        <button class="btn btn-primary" id="start-using">Começar a Usar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>Minha Biblioteca</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-page="library"><i class="fas fa-th-large"></i> Biblioteca</a></li>
+                    <li><a href="#" class="nav-link" data-page="favorites"><i class="fas fa-heart"></i> Favoritos</a></li>
+                    <li><a href="#" class="nav-link" data-page="statistics"><i class="fas fa-chart-pie"></i> Estatísticas</a></li>
+                    <li><a href="#" class="nav-link" data-page="ranking"><i class="fas fa-trophy"></i> Ranking</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <button class="btn-icon" id="help-btn" title="Ajuda"><i class="fas fa-question-circle"></i></button>
+            </div>
+        </header>
+
+        <main>
+
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p>Visão geral da sua biblioteca</p>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-book"></i></div>
+                        <div class="stat-value" id="total-books">0</div>
+                        <div class="stat-label">Livros</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-film"></i></div>
+                        <div class="stat-value" id="total-movies">0</div>
+                        <div class="stat-label">Filmes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-tv"></i></div>
+                        <div class="stat-value" id="total-series">0</div>
+                        <div class="stat-label">Séries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <div class="stat-value" id="avg-rating">0.0</div>
+                        <div class="stat-label">Avaliação Média</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Adicionados Recentemente</h2>
+                    <button class="btn btn-primary" id="add-item-btn-dashboard">
+                        <i class="fas fa-plus"></i> Adicionar Item
+                    </button>
+                </div>
+                <div class="grid" id="recent-items">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Sua biblioteca está vazia</p>
+                        <button class="btn btn-primary" onclick="library.openItemModal()">Adicionar Primeiro Item</button>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="library" class="page">
+                <div class="page-header">
+                    <h1>Biblioteca</h1>
+                    <p>Todos os seus livros, filmes e séries</p>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" id="search-input" placeholder="Buscar por título, autor ou diretor...">
+                    </div>
+                    <select class="filter-select" id="type-filter">
+                        <option value="all">Todos os tipos</option>
+                        <option value="book">Livros</option>
+                        <option value="movie">Filmes</option>
+                        <option value="series">Séries</option>
+                    </select>
+                    <select class="filter-select" id="year-filter">
+                        <option value="all">Todos os anos</option>
+                    </select>
+                    <select class="filter-select" id="status-filter">
+                        <option value="all">Todos os status</option>
+                        <option value="completed">Concluídos</option>
+                        <option value="in-progress">Em andamento</option>
+                        <option value="planned">Planejados</option>
+                    </select>
+                    <button class="btn btn-primary" id="add-item-btn">
+                        <i class="fas fa-plus"></i> Adicionar Item
+                    </button>
+                </div>
+                
+                <div class="grid" id="library-grid">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Sua biblioteca está vazia</p>
+                        <button class="btn btn-primary" onclick="library.openItemModal()">Adicionar Primeiro Item</button>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="favorites" class="page">
+                <div class="page-header">
+                    <h1>Favoritos</h1>
+                    <p>Seus livros, filmes e séries favoritos</p>
+                </div>
+                <div class="grid" id="favorites-grid">
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <p>Nenhum favorito ainda</p>
+                        <p class="empty-state-sub">Marque itens como favoritos para vê-los aqui</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="statistics" class="page">
+                <div class="page-header">
+                    <h1>Estatísticas</h1>
+                    <p>Analise seus hábitos de consumo</p>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total de Itens</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                        <div class="stat-value" id="stat-favorites">0</div>
+                        <div class="stat-label">Favoritos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-value" id="stat-completed">0</div>
+                        <div class="stat-label">Concluídos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <div class="stat-value" id="stat-avg-rating">0.0</div>
+                        <div class="stat-label">Avaliação Média</div>
+                    </div>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h2>Distribuição por Tipo</h2>
+                        <div class="chart-container">
+                            <canvas id="type-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h2>Distribuição por Avaliação</h2>
+                        <div class="chart-container">
+                            <canvas id="rating-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ranking" class="page">
+                <div class="page-header">
+                    <h1>Ranking Anual</h1>
+                    <p>Seus melhores livros, filmes e séries por ano</p>
+                </div>
+                
+                <div class="search-container">
+                    <select class="filter-select" id="ranking-year">
+                        <option value="all">Todos os anos</option>
+                    </select>
+                    <select class="filter-select" id="ranking-type">
+                        <option value="all">Todos os tipos</option>
+                        <option value="book">Livros</option>
+                        <option value="movie">Filmes</option>
+                        <option value="series">Séries</option>
+                    </select>
+                </div>
+                
+                <div id="ranking-list">
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <p>Nenhum item para ranking</p>
+                        <p class="empty-state-sub">Adicione itens com avaliações para ver o ranking</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+        <div class="modal" id="item-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Adicionar Item</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <form id="item-form">
+                    <input type="hidden" id="item-id">
+                    
+                    <div class="form-tabs">
+                        <button type="button" class="tab-button active" data-tab="search-tab">Buscar Automaticamente</button>
+                        <button type="button" class="tab-button" data-tab="manual-tab">Inserir Manualmente</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="search-tab">
+                        <div class="form-group">
+                            <label for="search-type">Tipo</label>
+                            <select class="form-control" id="search-type" required>
+                                <option value="">Selecione um tipo</option>
+                                <option value="book">Livro</option>
+                                <option value="movie">Filme</option>
+                                <option value="series">Série</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="search-query">Buscar</label>
+                            <div class="search-input-container">
+                                <input type="text" class="form-control" id="search-query" placeholder="Digite o título...">
+                                <button type="button" class="btn btn-primary" id="search-api-btn">Buscar</button>
+                            </div>
+                        </div>
+                        <div id="search-results" class="search-results">
+                            <div class="empty-state-small">
+                                <i class="fas fa-search"></i>
+                                <p>Digite um título e clique em buscar</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="manual-tab">
+                        <div class="form-group">
+                            <label for="item-type">Tipo *</label>
+                            <select class="form-control" id="item-type" required>
+                                <option value="">Selecione um tipo</option>
+                                <option value="book">Livro</option>
+                                <option value="movie">Filme</option>
+                                <option value="series">Série</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-title">Título *</label>
+                            <input type="text" class="form-control" id="item-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-author-director">Autor/Diretor</label>
+                            <input type="text" class="form-control" id="item-author-director">
+                        </div>
+                        <div class="form-group">
+                            <label for="item-year">Ano</label>
+                            <input type="number" class="form-control" id="item-year" min="1900" max="2030">
+                        </div>
+                        <div class="form-group">
+                            <label for="item-genre">Gênero</label>
+                            <input type="text" class="form-control" id="item-genre">
+                        </div>
+                        <div class="form-group">
+                            <label for="item-rating">Avaliação (0-5)</label>
+                            <div class="rating-input">
+                                <div class="stars">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                </div>
+                                <input type="hidden" id="item-rating" value="0">
+                                <span class="rating-value" id="rating-value">0</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-status">Status</label>
+                            <select class="form-control" id="item-status">
+                                <option value="completed">Concluído</option>
+                                <option value="in-progress">Em andamento</option>
+                                <option value="planned">Planejado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-image">URL da Imagem</label>
+                            <input type="text" class="form-control" id="item-image" placeholder="https://exemplo.com/imagem.jpg">
+                            <small class="form-help">Deixe em branco para usar imagem padrão</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-notes">Notas</label>
+                            <textarea class="form-control" id="item-notes" rows="3" placeholder="Suas observações sobre este item..."></textarea>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="item-favorite">
+                            <label class="form-check-label" for="item-favorite">Adicionar aos favoritos</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar Item</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="modal" id="confirm-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Confirmar Exclusão</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir este item?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="confirm-delete">Excluir</button>
+                    <button class="btn btn-secondary" id="cancel-delete">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="loading-spinner" id="loading-spinner">
+            <div class="spinner"></div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
